@@ -4,16 +4,16 @@ import 'package:meals/widgets/meal_item_trait.dart';
 import 'package:transparent_image/transparent_image.dart';
 
 class MealItem extends StatelessWidget {
-  const MealItem({super.key, required this.meal,required this.onSelectMeal});
+  const MealItem({super.key, required this.meal, required this.onSelectMeal});
   final Meal meal;
-  final void Function() onSelectMeal;
+  final void Function(Meal meal) onSelectMeal;
 
   String get complexityText {
     return meal.complexity.name[0].toUpperCase() +
         meal.complexity.name.substring(1);
   }
 
-  String get afforDabilityText {
+  String get affordabilityText {
     return meal.affordability.name[0].toUpperCase() +
         meal.affordability.name.substring(1);
   }
@@ -29,7 +29,7 @@ class MealItem extends StatelessWidget {
       shadowColor: Colors.white,
       elevation: 10,
       child: InkWell(
-        onTap:onSelectMeal,
+        onTap: () => onSelectMeal(meal),
         child: Stack(
           children: [
             FadeInImage(
@@ -74,13 +74,14 @@ class MealItem extends StatelessWidget {
                         ),
                         MealItemTrait(
                           icon: Icons.work,
-                          label: "$complexityText min",
+                          label: complexityText,
                         ),
                         const SizedBox(
                           width: 12,
                         ),
                         MealItemTrait(
-                            icon: Icons.attach_money, label: afforDabilityText),
+                            icon: Icons.attach_money,
+                            label: affordabilityText),
                       ],
                     )
                   ],
