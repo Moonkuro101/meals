@@ -6,7 +6,7 @@ import 'package:meals/screen/filters.dart';
 import 'package:meals/screen/meals.dart';
 import 'package:meals/widgets/main_drawer.dart';
 
-const KInitialFilters = {
+const kInitialFilters = {
     Filter.glutenFree: false,
     Filter.lactoseFree:false,
     Filter.vegetarian:false,
@@ -24,7 +24,7 @@ class TabsScreen extends StatefulWidget {
 class _TabsScreenState extends State<TabsScreen> {
   int _selectPageIndex = 0;
   final List<Meal> _favoriteMeals = [];
-  Map<Filter,bool> _selectFiter = KInitialFilters;
+  Map<Filter,bool> _selectFiter = kInitialFilters;
   void _showInfoMessage(String message) {
     ScaffoldMessenger.of(context).clearSnackBars();
     ScaffoldMessenger.of(context).showSnackBar(
@@ -54,7 +54,7 @@ class _TabsScreenState extends State<TabsScreen> {
         ),
       );
       setState(() {
-      _selectFiter = result ?? KInitialFilters;
+      _selectFiter = result ?? kInitialFilters;
         
       });
     }
@@ -88,13 +88,13 @@ class _TabsScreenState extends State<TabsScreen> {
       if(_selectFiter[Filter.glutenFree]! && !meal.isGlutenFree ){
         return false;
       }
-      if(_selectFiter[Filter.lactoseFree]! && !meal.isLactoseFree ){
+      else if(_selectFiter[Filter.lactoseFree]! && !meal.isLactoseFree ){
         return false;
       }
-      if(_selectFiter[Filter.vegetarian]! && !meal.isVegetarian ){
+      else if(_selectFiter[Filter.vegetarian]! && !meal.isVegetarian ){
         return false;
       }
-      if(_selectFiter[Filter.vegan]! && !meal.isVegan ){
+      else if(_selectFiter[Filter.vegan]! && !meal.isVegan ){
         return false;
       }
       return true;

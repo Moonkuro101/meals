@@ -34,8 +34,6 @@ class _FiltersScreenState extends State<FiltersScreen> {
     _lactoseFreeFilterSet = widget.currentFilters[Filter.lactoseFree]!;
     _veganFilterSet = widget.currentFilters[Filter.vegan]!;
     _vegetarianFilterSet = widget.currentFilters[Filter.vegetarian]!;
-
-    
   }
 
   @override
