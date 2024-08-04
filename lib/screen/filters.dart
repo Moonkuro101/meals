@@ -21,6 +21,7 @@ class FiltersScreen extends StatefulWidget {
 }
 
 class _FiltersScreenState extends State<FiltersScreen> {
+
   var _glutenFreeFilterSet = false;
   var _lactoseFreeFilterSet = false;
   var _vegetarianFilterSet = false;
@@ -28,7 +29,6 @@ class _FiltersScreenState extends State<FiltersScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _glutenFreeFilterSet = widget.currentFilters[Filter.glutenFree]!;
     _lactoseFreeFilterSet = widget.currentFilters[Filter.lactoseFree]!;
@@ -55,6 +55,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
           }
         },
       ),
+
       body: PopScope(
         canPop: false,
         onPopInvoked: (bool didPop) {
@@ -66,6 +67,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
             Filter.vegan: _veganFilterSet,
           });
         },
+        
         child: Column(
           children: [
             SwitchListTile(

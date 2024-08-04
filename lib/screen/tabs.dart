@@ -82,6 +82,7 @@ class _TabsScreenState extends State<TabsScreen> {
     });
   }
 
+
   @override
   Widget build(BuildContext context) {
     final availabeMeals = dummyMeals.where((meal) {
@@ -99,6 +100,7 @@ class _TabsScreenState extends State<TabsScreen> {
       }
       return true;
     }).toList(); 
+    
     Widget activePage = CategoriesScreen(
       onToggleFavorite: toggleMealFavoriteStatus,
       availabeMeals: availabeMeals,
