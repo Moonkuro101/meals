@@ -1,23 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:meals/models/meal.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:meals/provider/favorites_provider.dart';
 
-class MealItemScreen extends StatelessWidget {
-  const MealItemScreen({super.key, required this.meal,required this.onToggleFavorite});
+class MealItemScreen extends ConsumerWidget {
+  const MealItemScreen({super.key, required this.meal});
 
   final Meal meal;
-  final void Function(Meal meal) onToggleFavorite;
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
         title: Text(meal.title),
         actions: [
-          IconButton(onPressed: () {
-            onToggleFavorite(meal);
-          }, icon:Icon(Icons.star))
+          IconButton(
+            onPressed: () {
+              final wasAdded = ref
+                  .read(favoritesMealsProvider.notifier)
+                  .toggleMealFavoriteStatus(meal);
+              
+              ScaffoldMessenger.of(context).clearSnackBars();
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(wasAdded ? "meal has been favorite" : "meal has no longer favorite"),
+                ),
+              );
+            },
+            icon: const Icon(Icons.star),
+          )
         ],
       ),
-      body: SingleChildScrollView( // Listview
+      body: SingleChildScrollView(
+        // Listview
         child: Column(
           children: [
             Container(
@@ -68,7 +82,8 @@ class MealItemScreen extends StatelessWidget {
             ),
             for (final step in meal.steps)
               Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8,horizontal: 12),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
                 child: Text(
                   textAlign: TextAlign.center,
                   step,
