@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:meals/models/meal.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meals/provider/favorites_provider.dart';
+import 'package:meals/provider/icon_provider.dart';
 
 class MealItemScreen extends ConsumerWidget {
   const MealItemScreen({super.key, required this.meal});
@@ -9,13 +10,15 @@ class MealItemScreen extends ConsumerWidget {
   final Meal meal;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final iconState = ref.watch(iconStateProvider);
+    
     return Scaffold(
       appBar: AppBar(
         title: Text(meal.title),
         actions: [
           IconButton(
             onPressed: () {
-              final wasAdded = ref
+              final bool wasAdded = ref
                   .read(favoritesMealsProvider.notifier)
                   .toggleMealFavoriteStatus(meal);
               
@@ -25,8 +28,11 @@ class MealItemScreen extends ConsumerWidget {
                   content: Text(wasAdded ? "meal has been favorite" : "meal has no longer favorite"),
                 ),
               );
+              
+              // Toggle the icon state
+              ref.read(iconStateProvider.notifier).toggle();
             },
-            icon: const Icon(Icons.star),
+            icon: Icon(iconState ? Icons.star : Icons.star_border),
           )
         ],
       ),
@@ -59,10 +65,10 @@ class MealItemScreen extends ConsumerWidget {
             const SizedBox(
               height: 14,
             ),
-            for (final ingrediant in meal.ingredients)
+            for (final ingredient in meal.ingredients)
               Text(
                 textAlign: TextAlign.center,
-                ingrediant,
+                ingredient,
                 style: Theme.of(context)
                     .textTheme
                     .bodyLarge!

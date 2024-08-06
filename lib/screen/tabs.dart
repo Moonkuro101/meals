@@ -26,14 +26,6 @@ class TabsScreen extends ConsumerStatefulWidget {
 class _TabsScreenState extends ConsumerState<TabsScreen> {
   int _selectPageIndex = 0;
   Map<Filter,bool> _selectFiter = kInitialFilters;
-  void _showInfoMessage(String message) {
-    ScaffoldMessenger.of(context).clearSnackBars();
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(message),
-      ),
-    );
-  }
 
   // void _setScreen(String identifier) {
   //   Navigator.of(context).pop();
@@ -73,6 +65,7 @@ class _TabsScreenState extends ConsumerState<TabsScreen> {
   @override
   Widget build(BuildContext context) {
     final List<Meal> meals = ref.watch(mealsProvider);
+    
     final availabeMeals = meals.where((meal) {
       if(_selectFiter[Filter.glutenFree]! && !meal.isGlutenFree ){
         return false;
