@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:meals/models/meal.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:meals/provider/favorites_provider.dart';
-import 'package:meals/provider/icon_provider.dart';
+import 'package:meals/providers/favorites_provider.dart';
+import 'package:meals/providers/icon_provider.dart';
 
 class MealItemScreen extends ConsumerWidget {
   const MealItemScreen({super.key, required this.meal});
