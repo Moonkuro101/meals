@@ -10,7 +10,9 @@ class MealItemScreen extends ConsumerWidget {
   final Meal meal;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final iconState = ref.watch(iconStateProvider);
+    final favoriteMeals = ref.watch(favoritesMealsProvider);
+
+    final isFavorite = favoriteMeals.contains(meal);
     
     return Scaffold(
       appBar: AppBar(
@@ -30,9 +32,8 @@ class MealItemScreen extends ConsumerWidget {
               );
               
               // Toggle the icon state
-              ref.read(iconStateProvider.notifier).toggle();
             },
-            icon: Icon(iconState ? Icons.star : Icons.star_border),
+            icon: Icon(isFavorite ? Icons.star : Icons.star_border),
           )
         ],
       ),
