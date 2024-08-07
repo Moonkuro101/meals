@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:meals/models/meal.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meals/providers/favorites_provider.dart';
-import 'package:meals/providers/icon_provider.dart';
 
 class MealItemScreen extends ConsumerWidget {
   const MealItemScreen({super.key, required this.meal});
@@ -13,7 +12,7 @@ class MealItemScreen extends ConsumerWidget {
     final favoriteMeals = ref.watch(favoritesMealsProvider);
 
     final isFavorite = favoriteMeals.contains(meal);
-    
+
     return Scaffold(
       appBar: AppBar(
         title: Text(meal.title),
@@ -23,17 +22,33 @@ class MealItemScreen extends ConsumerWidget {
               final bool wasAdded = ref
                   .read(favoritesMealsProvider.notifier)
                   .toggleMealFavoriteStatus(meal);
-              
+
               ScaffoldMessenger.of(context).clearSnackBars();
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
-                  content: Text(wasAdded ? "meal has been favorite" : "meal has no longer favorite"),
+                  content: Text(wasAdded
+                      ? "meal has been favorite"
+                      : "meal has no longer favorite"),
                 ),
               );
-              
+
               // Toggle the icon state
             },
-            icon: Icon(isFavorite ? Icons.star : Icons.star_border),
+            icon: AnimatedSwitcher(
+              duration: const Duration(
+                milliseconds: 500,
+              ),
+              transitionBuilder: (child, animation) {
+                return RotationTransition(
+                  turns: Tween(begin: 0.5,end: 1.0,).animate(animation),
+                  child: child,
+                );
+              },
+              child: Icon(
+                isFavorite ? Icons.star : Icons.star_border,
+                key: ValueKey(isFavorite),
+              ),
+            ),
           )
         ],
       ),
@@ -41,16 +56,19 @@ class MealItemScreen extends ConsumerWidget {
         // Listview
         child: Column(
           children: [
-            Container(
-              margin: const EdgeInsets.all(16),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(16),
-                clipBehavior: Clip.hardEdge,
-                child: Image.network(
-                  meal.imageUrl,
-                  width: double.infinity,
-                  height: 200,
-                  fit: BoxFit.cover,
+            Hero(
+              tag: meal.id,
+              child: Container(
+                margin: const EdgeInsets.all(16),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(16),
+                  clipBehavior: Clip.hardEdge,
+                  child: Image.network(
+                    meal.imageUrl,
+                    width: double.infinity,
+                    height: 200,
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
             ),
